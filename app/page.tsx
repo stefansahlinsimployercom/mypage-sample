@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 interface Subscription {
   id: string;
   contractNumber: string;
+  accountNumber: string;
   name: string;
   status: string;
   primaryContact: string;
@@ -29,6 +30,15 @@ interface Subscription {
 export default function Home() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const statusColor = (status: string) => {
+    if (!status) return { bg: "#f0f0f0", text: "#888" };
+    if (status.toLowerCase().includes("fornyes"))
+      return { bg: "#e8f5e9", text: "#2e7d32" };
+    if (status.toLowerCase().includes("avslut"))
+      return { bg: "#fdecea", text: "#c62828" };
+    return { bg: "#e3f2fd", text: "#1565c0" };
+  };
 
   useEffect(() => {
     fetch("/api/subscriptions")
@@ -114,12 +124,19 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          Här ser du dina abonnemang och kan skicka in en uppsägning
+          The following subscriptions are tied to your account It displays all
+          subscriptions related to your company´s account number
         </p>
       </div>
 
       {/* Tabell */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 48px" }}>
+      <div
+        style={{
+          margin: "0 auto",
+          padding: "0 24px 48px",
+          overflowX: "scroll",
+        }}
+      >
         <div
           style={{
             background: "#fff",
@@ -152,7 +169,6 @@ export default function Home() {
           ) : (
             <table
               style={{
-                width: "100%",
                 borderCollapse: "collapse",
                 fontSize: 14,
               }}
@@ -161,15 +177,16 @@ export default function Home() {
                 <tr style={{ background: "#fafafa" }}>
                   {[
                     "ID",
-                    "Kontrakt#",
-                    "Namn",
-                    "Status",
-                    "Kontakt",
-                    "Referens",
-                    "Löptid (mån)",
-                    "Antal",
-                    "Start",
-                    "Slutdatum",
+                    "Contract No.",
+                    "Customer #",
+                    "Description",
+                    "Renewal Status",
+                    "Primary Contact",
+                    "Your Referens",
+                    "Contract Term (months)",
+                    "Quantity",
+                    "Start Date",
+                    "End Date / Renewal Date",
                   ].map((h) => (
                     <th
                       key={h}
@@ -199,37 +216,30 @@ export default function Home() {
                     <td style={{ padding: "12px 16px", color: "#555" }}>
                       {sub.contractNumber}
                     </td>
+                    <td style={{ padding: "12px 16px", color: "#555" }}>
+                      {sub.accountNumber}
+                    </td>
                     <td style={{ padding: "12px 16px", fontWeight: 500 }}>
                       {sub.name}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      {sub.status ? (
-                        <span
-                          style={{
-                            background: "#e8f5e9",
-                            color: "#2e7d32",
-                            padding: "2px 10px",
-                            borderRadius: 20,
-                            fontSize: 12,
-                            fontWeight: 500,
-                          }}
-                        >
-                          {sub.status}
-                        </span>
-                      ) : (
-                        <span
-                          style={{
-                            background: "#f0f0f0",
-                            color: "#888",
-                            padding: "2px 10px",
-                            borderRadius: 20,
-                            fontSize: 12,
-                            fontWeight: 500,
-                          }}
-                        >
-                          —
-                        </span>
-                      )}
+                      {(() => {
+                        const c = statusColor(sub.status);
+                        return (
+                          <span
+                            style={{
+                              background: c.bg,
+                              color: c.text,
+                              padding: "2px 10px",
+                              borderRadius: 20,
+                              fontSize: 12,
+                              fontWeight: 500,
+                            }}
+                          >
+                            {sub.status || "—"}
+                          </span>
+                        );
+                      })()}
                     </td>
                     <td style={{ padding: "12px 16px", color: "#555" }}>
                       {sub.primaryContact}
