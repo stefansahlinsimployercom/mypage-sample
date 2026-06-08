@@ -114,7 +114,7 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          Här ser du dina abonnemang och kan skicka in en uppsägning.
+          Här ser du dina abonnemang och kan skicka in en uppsägning
         </p>
       </div>
 
