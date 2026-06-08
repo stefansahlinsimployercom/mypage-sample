@@ -134,7 +134,6 @@ export default function Home() {
         style={{
           margin: "0 auto",
           padding: "0 24px 48px",
-          overflowX: "scroll",
         }}
       >
         <div
@@ -142,7 +141,7 @@ export default function Home() {
             background: "#fff",
             borderRadius: 12,
             border: "1px solid #eee",
-            overflow: "hidden",
+            overflow: "auto",
           }}
         >
           <div
@@ -155,7 +154,7 @@ export default function Home() {
             }}
           >
             <span style={{ fontWeight: 600, fontSize: 15 }}>
-              Dina subscriptions
+              Your subscriptions
             </span>
             <span style={{ fontSize: 12, color: "#999" }}>
               Live-data ({subscriptions.length} rader)
@@ -164,7 +163,7 @@ export default function Home() {
 
           {loading ? (
             <div style={{ padding: 32, textAlign: "center", color: "#999" }}>
-              Laddar...
+              Loading ...
             </div>
           ) : (
             <table
