@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 // }
 
 interface Subscription {
-  id: string;
   contractNumber: string;
   accountNumber: string;
   name: string;
@@ -32,12 +31,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const statusColor = (status: string) => {
-    if (!status) return { bg: "#f0f0f0", text: "#888" };
     if (status.toLowerCase().includes("fornyes"))
       return { bg: "#e8f5e9", text: "#2e7d32" };
-    if (status.toLowerCase().includes("avslut"))
-      return { bg: "#fdecea", text: "#c62828" };
-    return { bg: "#e3f2fd", text: "#1565c0" };
+    return { bg: "#f0f0f0", text: "#888" };
   };
 
   useEffect(() => {
@@ -156,9 +152,9 @@ export default function Home() {
             <span style={{ fontWeight: 600, fontSize: 15 }}>
               Your subscriptions
             </span>
-            <span style={{ fontSize: 12, color: "#999" }}>
+            {/* <span style={{ fontSize: 12, color: "#999" }}>
               Live-data ({subscriptions.length} rader)
-            </span>
+            </span> */}
           </div>
 
           {loading ? (
@@ -175,17 +171,16 @@ export default function Home() {
               <thead>
                 <tr style={{ background: "#fafafa" }}>
                   {[
-                    "ID",
                     "Contract No.",
-                    "Customer #",
+                    "Customer No.",
                     "Description",
-                    "Renewal Status",
+                    "Quantity",
                     "Primary Contact",
                     "Your Referens",
                     "Contract Term (months)",
-                    "Quantity",
+                    "Renewal Status ",
                     "Start Date",
-                    "End Date / Renewal Date",
+                    "End of current period",
                   ].map((h) => (
                     <th
                       key={h}
@@ -206,12 +201,9 @@ export default function Home() {
               <tbody>
                 {subscriptions.map((sub, i) => (
                   <tr
-                    key={sub.contractNumber || i}
+                    key={`${sub.contractNumber}-${i}`}
                     style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}
                   >
-                    <td style={{ padding: "12px 16px", color: "#555" }}>
-                      {sub.id || "—"}
-                    </td>
                     <td style={{ padding: "12px 16px", color: "#555" }}>
                       {sub.contractNumber}
                     </td>
@@ -220,6 +212,18 @@ export default function Home() {
                     </td>
                     <td style={{ padding: "12px 16px", fontWeight: 500 }}>
                       {sub.name}
+                    </td>
+                    <td style={{ padding: "12px 16px", color: "#555" }}>
+                      {sub.quantity}
+                    </td>
+                    <td style={{ padding: "12px 16px", color: "#555" }}>
+                      {sub.primaryContact}
+                    </td>
+                    <td style={{ padding: "12px 16px", color: "#555" }}>
+                      {sub.yourReference}
+                    </td>
+                    <td style={{ padding: "12px 16px", color: "#555" }}>
+                      {sub.contractTermInMonths}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       {(() => {
@@ -239,18 +243,6 @@ export default function Home() {
                           </span>
                         );
                       })()}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#555" }}>
-                      {sub.primaryContact}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#555" }}>
-                      {sub.yourReference}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#555" }}>
-                      {sub.contractTermInMonths}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#555" }}>
-                      {sub.quantity}
                     </td>
                     <td style={{ padding: "12px 16px", color: "#555" }}>
                       {sub.startDate}
