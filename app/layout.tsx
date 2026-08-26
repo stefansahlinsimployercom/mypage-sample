@@ -35,6 +35,9 @@ export default function RootLayout({
             app_id: "caclgobw",
             user_tier: "pro",
             plan: "enterprise",
+            testcase_url: "https://mypage-sample.vercel.app/",
+            testcase_company_id: "acme-test-001",
+            testcase_role: "admin",
           };`}
         </Script>
         <Script id="intercom-widget" strategy="afterInteractive">
