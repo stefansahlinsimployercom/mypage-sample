@@ -33,6 +33,8 @@ export default function RootLayout({
           {`window.intercomSettings = {
             api_base: "https://api-iam.eu.intercom.io",
             app_id: "caclgobw",
+            user_tier: "pro",
+            plan: "enterprise",
           };`}
         </Script>
         <Script id="intercom-widget" strategy="afterInteractive">
